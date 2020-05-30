@@ -57,4 +57,26 @@ class FlaggedWordCheckerSpec extends Specification {
         then:
         assert flaggedWordsCount == 3
     }
+
+    def "It counts case insensitive words"() {
+        given:
+        def checker = new FlaggedWordChecker(["escort", "bodyguard", "gambling"])
+
+        when:
+        def flaggedWordsCount = checker.countFlaggedWords(["A", "quick", "GambLing", "fox", "jumps", "over", "escort", "Bodyguard"])
+
+        then:
+        assert flaggedWordsCount == 3
+    }
+
+    def "It uses a case-insensitive list of provided words"() {
+        given:
+        def checker = new FlaggedWordChecker(["ESCORT", "BodyGuard", "GAMbling"])
+
+        when:
+        def flaggedWordsCount = checker.countFlaggedWords(["A", "quick", "gambling", "fox", "jumps", "over", "escort", "bodyguard"])
+
+        then:
+        assert flaggedWordsCount == 3
+    }
 }
